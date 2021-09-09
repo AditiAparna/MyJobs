@@ -1,12 +1,19 @@
-import './App.css';
-import Login from './Screens/login';
-
+import "./App.css";
+import Login from "./Screens/login";
+import SignUP from "./Screens/SignUP";
+import Homepage from "./Screens/homepage";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <div style={{backgroundColor: '#303F60',top: 0, height: 200, width: '100%', position: 'absolute'}}></div>
-      <div style={{backgroundColor: '#EDF6FF',bottom: 0, height: '70%', width:'100%', position:'absolute'}}></div>
-      <Login />
+      <div className="bottoBackground"></div>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={() => <Homepage />} />
+          <Route path="/login" exact component={() => <Login />} />
+          <Route path="/signup" exact component={() => <SignUP />} />
+        </Switch>
+      </Router>
     </div>
   );
 }
