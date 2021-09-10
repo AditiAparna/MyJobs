@@ -8,7 +8,8 @@ function Header(props){
                 <div style={{color:'white', fontWeight: 'bold', fontSize: 20}}>My</div>
                 <div style={{color:'#43AFFF', fontWeight: 'bold', fontSize: 20}}>Jobs</div>
             </div>
-            {props.loggedIn?
+            {props.onlyLogo?null:
+            props.loggedIn?
             <div className="d-flex justify-content-around" style={{width:150}}>
                 <div style={{color:'white'}}>Post a Job</div>
                 <div className="d-flex justify-content-center align-items-center" style={{borderRadius:100, backgroundColor:'#D9EFFF', height:30, width:30}}>A</div>

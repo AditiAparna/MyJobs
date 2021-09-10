@@ -20,3 +20,11 @@
   width: 100%;
   position: absolute;
 }
+.bottoBackground2 {
+  position: "absolute";
+  background-color: #edf6ff;
+  bottom: 0;
+  height: 50vh;
+  width: 100%;
+  position: absolute;
+}
