@@ -45,7 +45,7 @@ export default function SignUp() {
               Have an account?
               <span style={{ color: "#43afff" }}>
                 <Link to="/login">
-                  <a>Login</a>
+                  <a href="/login">Login</a>
                 </Link>
               </span>
             </h7>
