@@ -1,9 +1,9 @@
 import React,{useState} from "react";
 import "./Style.css";
 import StdInput from "../Components/StdInput";
-// import Button from "../Components/Button";
 import { Link } from "react-router-dom";
 import data from "../api.json";
+import Header from '../Components/header';
 
 function Login() {
   const [email, setEmail] = useState();
@@ -33,14 +33,16 @@ function Login() {
           }
           else {
             seterror(1)
-              setMsg("User not registered or incorrect Password :/");
+            setMsg("User not registered or incorrect Password :/");
           }
         }
     }
     //-------------------------------------------
 
   return (
-    <div className="container">
+    <div>
+      <Header onlyLogo={1}/>
+      <div className="container">
       <div className="row loginContainer justify-content-center align-items-center">
         <div className="login p-4 ">
           <StdInput
@@ -81,6 +83,7 @@ function Login() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

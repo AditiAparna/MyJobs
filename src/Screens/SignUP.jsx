@@ -3,9 +3,11 @@ import "./Style.css";
 import StdInput from "../Components/StdInput";
 import Button from "../Components/Button";
 import { Link } from "react-router-dom";
+import Header from '../Components/header';
 
 export default function SignUp() {
 
+  const [toggle, setToggle]=useState(0)
   const [name, setName]=useState('')
   const [email, setEmail]=useState('')
   const [password, setPassword]=useState('')
@@ -39,7 +41,9 @@ export default function SignUp() {
   }
 
   return (
-    <div className="container">
+    <div>
+      <Header onlyLogo={1}/>
+      <div className="container">
       <div className="row loginContainer justify-content-center align-items-center">
         <div className="signUp p-4 ">
           <h3 className="mb-2">SignUp</h3>
@@ -47,11 +51,22 @@ export default function SignUp() {
             <h7 className="">
               I am a*
             </h7>
-            <div className="d-flex justify-content p-2 ml-1s">
-              <Button name="Recrutier" />
-              <Button name="candidate" left="40px" />
+            <div className="d-flex justify-content-between ml-1s">
+              <div className={toggle?'inactiveToggle d-flex justify-content-center align-items-center toggleButton':'activeToggle d-flex justify-content-center align-items-center toggleButton'}
+                  style={{marginRight:5}}
+                  onClick={()=>{setToggle(0)}}
+              >
+                <img src={toggle?require('../Assets/research.png').default:require('../Assets/research-white.png').default} className="imgStyle"/>
+                Recruiter
+              </div>
+              <div className={toggle?'activeToggle d-flex justify-content-center align-items-center toggleButton':'inactiveToggle d-flex justify-content-center align-items-center toggleButton'} 
+                  onClick={()=>{setToggle(1)}}
+              >
+                <img src={toggle?require('../Assets/candidates-white.png').default:require('../Assets/candidates.png').default} className="imgStyle"/>
+                Candidate
+              </div>
             </div>
-          </div>{console.log(error,name,email)}
+          </div>
           <StdInput 
             title={"Full Name*"} 
             placeholder={"Enter you full name"}
@@ -97,6 +112,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

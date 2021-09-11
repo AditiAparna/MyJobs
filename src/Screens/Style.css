@@ -44,3 +44,23 @@ h6 {
   box-shadow: 0px 15px 10px 0.1px #d6d6d6;
   border-radius: 20px;
 }
+.toggleButton{
+  height:45px;
+  width:175px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.imgStyle{
+  height:25px;
+  width:25px;
+  margin:10px;
+}
+.activeToggle{
+  background-color:#43afff;
+  color:white
+}
+.inactiveToggle{
+  background-color:white;
+  color:black;
+  border: 1px solid #c6c6c6;
+}
