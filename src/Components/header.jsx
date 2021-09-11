@@ -11,8 +11,16 @@ function Header(props){
             {props.onlyLogo?null:
             props.loggedIn?
             <div className="d-flex justify-content-around" style={{width:150}}>
-                <div style={{color:'white'}}>Post a Job</div>
+                <Link to="/postjob">
+                    <div className={props.postJob ? "head" : ""} style={{ color: "white" }}>
+                        Post a Job
+                    </div>
+                </Link>
                 <div className="d-flex justify-content-center align-items-center" style={{borderRadius:100, backgroundColor:'#D9EFFF', height:30, width:30}}>A</div>
+                <img 
+                    src={require('../Assets/down-arrow.png').default}
+                    style={{height: 12, width: 12, display:'flex', alignSelf:'center'}}
+                />
             </div>:
             <Link to="/login">
                 <div className="d-flex justify-content-center align-items-center" style={{height: 35, width: 145, backgroundColor: '#43AFFF33', border: 'solid',borderRadius: 5, borderWidth: 0.5, borderColor: '#43AFFF',color: 'white', fontSize: 14}}> 
@@ -23,5 +31,4 @@ function Header(props){
         </div>
     )
 }
-
 export default Header;

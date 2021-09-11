@@ -3,7 +3,7 @@ import React from "react";
 export default function StdInput(props) {
   return (
     <div className="Input">
-      <h6 for="basic-url" className="form-label mb-2">
+      <h6 for="basic-url" className="form-label mb-2" style={{ width: props.width }}>
         {props.title}
       </h6>
       <div className="input-group mb-3 ">
