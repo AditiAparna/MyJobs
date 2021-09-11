@@ -26,7 +26,7 @@ function Homepage(){
                         </div>
                     </div>
                     <div className='col'>
-                        <img src={require('../Assets/download.jpg').default} alt="" style={{height:300,width:450,marginTop:40 }}/>
+                        <img src={require('../Assets/download.jpg').default} alt="" style={{height:300,width:450,marginTop:40,borderRadius:20 }}/>
                     </div>
                 </div>
             </div>

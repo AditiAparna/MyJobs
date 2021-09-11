@@ -6,7 +6,7 @@ export default function Button(props) {
       className="row justify-content-center"
       style={{ marginLeft: props.left }}
     >
-      <button type="button" className="btn button">
+      <button type="button" className="btn button" onClick={props.action}>
         {props.name}
       </button>
     </div>

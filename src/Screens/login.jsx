@@ -18,7 +18,7 @@ function Login() {
   }
   
   // ------checking credentials--------------------
-    const auth = () => {
+    function auth () {
         if(!regEmail.test(email)){
           seterror(1);
           setMsg("Invalid email format :/");
@@ -32,7 +32,8 @@ function Login() {
               alert("Succefully loged in");
           }
           else {
-              alert("User not registered or incorrect Password :/");
+            seterror(1)
+              setMsg("User not registered or incorrect Password :/");
           }
         }
     }
@@ -43,11 +44,11 @@ function Login() {
       <div className="row loginContainer justify-content-center align-items-center">
         <div className="login p-4 ">
           <StdInput
-            title={"Email Address*"}
+            title={"Email Address"}
             placeholder={"Enter your email address"}
             onChange={setEmailFunction}
           />
-          {error ? <div style={{ color: "#ff0000" }}>{msg}</div> :null }
+          
           <h6 for="basic-url" className="">
             Password
             <span className="forgotpwd"> Forgot your password?</span>
@@ -60,6 +61,7 @@ function Login() {
               onChange={(value)=>{setPassword(value.target.value)}}
             />
           </div>
+          {error ? <div className="d-flex justify-content-end mb-2" style={{ color: "#ff0000"}}>{msg}</div> :null }
           <div>
             <div className="row justify-content-center">
               <button type="button" className="btn button" onClick={auth}>
