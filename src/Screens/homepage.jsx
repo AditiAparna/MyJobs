@@ -30,9 +30,9 @@ function Homepage(){
                         <img src={require('../Assets/download.jpg').default} alt="" style={{height:300,width:450,marginTop:40,borderRadius:20 }}/>
                     </div>
                 </div>
-            </div>
-            <div>
-
+                <div style={{position:'absolute'}}>
+                    <img src={require('../Assets/bottom.png').default} />
+                </div>
             </div>
         </div>
     )

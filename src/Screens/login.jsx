@@ -10,7 +10,7 @@ function Login(props) {
   const [error, seterror] = useState(0);
   const [msg, setMsg] = useState("");
   const [data, setData]= useState();
-  const [redirect, setRedirect] = useState(0);
+  const [redirect, setRedirect] = useState();
   const [userToken, setUserToken] = useState();
 
   let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,9 +93,11 @@ function Login(props) {
               <div className="row justify-content-center">
                 {redirect ?
                   <div>
-                  <Profile mydata={userToken} />
+                    {/* <Link to="/profile" /> */}
+                  {/* <Profile mydata={userToken} /> */}
                   <Redirect to={{
-                              pathname:'/profile'
+                              pathname:'/profile',
+                              mydata:userToken
                 }} />
                 </div>: null}
                   <button type="button" className="btn button" onClick={auth}>

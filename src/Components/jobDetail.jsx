@@ -10,7 +10,7 @@ function JobDetails(props) {
                     <img src={require('../Assets/location.png').default} alt="location" style={{height:15,width:15,margin: 5}}/>
                     <div style={{fontSize: 14, color: '#303f60'}}>{props.location}</div>
                 </div>
-                <div className="d-flex align-items-center justify-content-center applicationsButton" >
+                <div className="d-flex align-items-center justify-content-center applicationsButton" onClick={()=>props.action(props.id)} >
                 View Applications
                 </div>
             </div>

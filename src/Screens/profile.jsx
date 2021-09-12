@@ -6,6 +6,7 @@ import JobDetails from "../Components/jobDetail";
 function Profile(props) {
   const [jobs, setJobs] = useState([]);
   const [userData,setUserData] = useState(props.mydata);
+  const tokens= props.mydata
   useEffect(() => {
     getJobs();
   }, []);
@@ -18,7 +19,7 @@ function Profile(props) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization:
+            Authorization: 
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYXJhZFJAZ21haWwuY29tIiwibmFtZSI6InNoYXJhZFIiLCJza2lsbHMiOiJIVE1MLCBDU1MsIEpTIiwidXNlclJvbGUiOjAsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMDlUMTc6Mjg6MjkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDktMDFUMTY6NTU6NTEuMDAwWiIsImlkIjoiZjQ5MmJkMjMtMmFkNS00YmY4LWFkZjYtMzg4OTkwOTNhYTA1IiwiaWF0IjoxNjMxNDMyNjYxfQ.G9pOVD5eNDC3U0afbDuwG7FjXm5fFpBPbU3mqPkH1PE"
           }
         }
@@ -32,10 +33,32 @@ function Profile(props) {
       }
     })();
   }
-  {console.log("props", props, userData)}
+  function getApplications(jobId){
+    (async () => {
+        const rawResponse = await fetch(
+          `https://jobs-api.squareboat.info/api/v1//recruiters/jobs/${jobId}/candidates`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: 
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYXJhZFJAZ21haWwuY29tIiwibmFtZSI6InNoYXJhZFIiLCJza2lsbHMiOiJIVE1MLCBDU1MsIEpTIiwidXNlclJvbGUiOjAsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMDlUMTc6Mjg6MjkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDktMDFUMTY6NTU6NTEuMDAwWiIsImlkIjoiZjQ5MmJkMjMtMmFkNS00YmY4LWFkZjYtMzg4OTkwOTNhYTA1IiwiaWF0IjoxNjMxNDMyNjYxfQ.G9pOVD5eNDC3U0afbDuwG7FjXm5fFpBPbU3mqPkH1PE"
+            }
+          }
+        );
+        const content = await rawResponse.json();
+        console.log("applications",content)
+  
+        if (content.success === true) {
+        //   setJobs(content.data.data);
+        } else {
+          console.log("Error");
+        }
+      })();
+  }
   return (
-    <div>
-      
+    <div>    
       <Header loggedIn={1} />
       <div className="container home" style={{ position: "relative" }}>
         <div>
@@ -59,6 +82,8 @@ function Profile(props) {
                   name={value.title}
                   details={value.description}
                   location={value.location}
+                  id={value.id}
+                  action={getApplications}
                 />
               </div>
             ))}
