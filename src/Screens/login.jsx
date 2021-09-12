@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import StdInput from "../Components/StdInput";
 import { Link, Redirect } from "react-router-dom";
 import Header from "../Components/header";
+import Profile from "./profile";
 
 function Login(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, seterror] = useState(0);
   const [msg, setMsg] = useState("");
-  var data={};
+  const [data, setData]= useState();
   const [redirect, setRedirect] = useState(0);
+  const [userToken, setUserToken] = useState();
 
   let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   function setEmailFunction(value) {
@@ -37,12 +39,11 @@ function Login(props) {
         });
         const content = await rawResponse.json();
       
-        console.log(content);
-      
       if (content.success===true) {
-        console.log('logged in')
-        data=content.data
-        console.log(data)
+        setData(content.data)
+        const token = content.data.token
+        setUserToken(token)
+        console.log(userToken, token)
         setRedirect(1)
       } else {
         seterror(1);
@@ -90,12 +91,13 @@ function Login(props) {
             ) : null}
             <div>
               <div className="row justify-content-center">
-                {console.log(data)}
                 {redirect ?
-                <Redirect to={{
-                              pathname:'/profile',
-                              state: {myData: JSON.stringify(data)}
-                }} />: null}
+                  <div>
+                  <Profile mydata={userToken} />
+                  <Redirect to={{
+                              pathname:'/profile'
+                }} />
+                </div>: null}
                   <button type="button" className="btn button" onClick={auth}>
                     {"Login"}
                   </button>
