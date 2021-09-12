@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import Button from "../Components/Button";
 import Header from "../Components/header";
 import JobDetails from "../Components/jobDetail";
+import ModalCard from "../Components/ModalCard";
 
 function Profile(props) {
-  const [jobs, setJobs] = useState([]);
-  const [userData,setUserData] = useState(props.mydata);
-  const tokens= props.mydata
   useEffect(() => {
     getJobs();
   }, []);
+  const [modal, setModal] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [app, setApp] = useState([]);
+  const [applicants, setApplicants]= useState(0);
   function getJobs() {
     (async () => {
       const rawResponse = await fetch(
@@ -19,48 +21,60 @@ function Profile(props) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: 
+            Authorization:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYXJhZFJAZ21haWwuY29tIiwibmFtZSI6InNoYXJhZFIiLCJza2lsbHMiOiJIVE1MLCBDU1MsIEpTIiwidXNlclJvbGUiOjAsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMDlUMTc6Mjg6MjkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDktMDFUMTY6NTU6NTEuMDAwWiIsImlkIjoiZjQ5MmJkMjMtMmFkNS00YmY4LWFkZjYtMzg4OTkwOTNhYTA1IiwiaWF0IjoxNjMxNDMyNjYxfQ.G9pOVD5eNDC3U0afbDuwG7FjXm5fFpBPbU3mqPkH1PE"
           }
         }
       );
       const content = await rawResponse.json();
-
+      console.log("1");
       if (content.success === true) {
         setJobs(content.data.data);
+      } else {
+        console.log("Error");
+        //   setReset(0)
+      }
+    })();
+  }
+  function getApplications(jobId) {
+    (async () => {
+      const rawResponse = await fetch(
+        `https://jobs-api.squareboat.info/api/v1//recruiters/jobs/${jobId}/candidates`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYXJhZFJAZ21haWwuY29tIiwibmFtZSI6InNoYXJhZFIiLCJza2lsbHMiOiJIVE1MLCBDU1MsIEpTIiwidXNlclJvbGUiOjAsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMDlUMTc6Mjg6MjkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDktMDFUMTY6NTU6NTEuMDAwWiIsImlkIjoiZjQ5MmJkMjMtMmFkNS00YmY4LWFkZjYtMzg4OTkwOTNhYTA1IiwiaWF0IjoxNjMxNDMyNjYxfQ.G9pOVD5eNDC3U0afbDuwG7FjXm5fFpBPbU3mqPkH1PE"
+          }
+        }
+      );
+      const content = await rawResponse.json();
+      console.log("applications", content);
+
+      if (content.success === true) {
+        
+        if(content.message){
+            setApplicants(0)
+        } else{
+            setApp(content.data);
+            setApplicants(1)
+        }
+        console.log(app);
       } else {
         console.log("Error");
       }
     })();
   }
-  function getApplications(jobId){
-    (async () => {
-        const rawResponse = await fetch(
-          `https://jobs-api.squareboat.info/api/v1//recruiters/jobs/${jobId}/candidates`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: 
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYXJhZFJAZ21haWwuY29tIiwibmFtZSI6InNoYXJhZFIiLCJza2lsbHMiOiJIVE1MLCBDU1MsIEpTIiwidXNlclJvbGUiOjAsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMDlUMTc6Mjg6MjkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDktMDFUMTY6NTU6NTEuMDAwWiIsImlkIjoiZjQ5MmJkMjMtMmFkNS00YmY4LWFkZjYtMzg4OTkwOTNhYTA1IiwiaWF0IjoxNjMxNDMyNjYxfQ.G9pOVD5eNDC3U0afbDuwG7FjXm5fFpBPbU3mqPkH1PE"
-            }
-          }
-        );
-        const content = await rawResponse.json();
-        console.log("applications",content)
-  
-        if (content.success === true) {
-        //   setJobs(content.data.data);
-        } else {
-          console.log("Error");
-        }
-      })();
-  }
   return (
-    <div>    
+    <div>
+      {console.log("props", props.location)}
       <Header loggedIn={1} />
-      <div className="container home" style={{ position: "relative" }}>
+      <div
+        className={modal ? "container home blur " : "container home "}
+        style={{ position: "relative" }}
+      >
         <div>
           <div className="d-flex flex-row align-items-center">
             <img
@@ -70,7 +84,12 @@ function Profile(props) {
             />
             <div style={{ color: "white" }}>Home</div>
           </div>
-          <div style={{ color: "white", marginTop: 20, fontWeight: "bold" }}>
+          <div
+            style={{ color: "white", marginTop: 20, fontWeight: "bold" }}
+            onClick={() => {
+              setModal(true);
+            }}
+          >
             Jobs posted by you
           </div>
         </div>
@@ -84,6 +103,9 @@ function Profile(props) {
                   location={value.location}
                   id={value.id}
                   action={getApplications}
+                  onClick={() => {
+                    console.log(setModal(true));
+                  }}
                 />
               </div>
             ))}
@@ -106,6 +128,41 @@ function Profile(props) {
             <Button name={"Post a Job"} />
           </div>
         )}
+      </div>
+      <div className={modal ? "modalContainer p-3" : "modalContainer p-3 hide"}>
+        <div className="modalTop d-flex justify-content-between">
+          <h6>Applicants for this job</h6>
+
+          <h5
+            style={{ fontWeight: "bold" }}
+            onClick={() => {
+              setModal(false);
+            }}
+          >
+            X
+          </h5>
+        </div>
+        <div className="total">
+          <h7 style={{ color: "#303f60", fontSize: "12px", fontWeight: "600" }}>
+            Total applicantions{" "}
+          </h7>
+          <div className="contentContainer">
+            <div className="row content mr-1">
+              <div className="col-6 ">
+                  {applicants?
+                    <div>
+                    {app.map((item) => {
+                        return(
+                      <ModalCard data={item} />)
+                    })}
+                  </div>
+                :<div>
+                    No applications for this job
+                </div>}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
