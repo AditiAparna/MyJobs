@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import StdInput from "../Components/StdInput";
 import { Link, Redirect } from "react-router-dom";
-import data from "../api.json";
 import Header from "../Components/header";
 
 function Login(props) {
@@ -9,6 +8,8 @@ function Login(props) {
   const [password, setPassword] = useState();
   const [error, seterror] = useState(0);
   const [msg, setMsg] = useState("");
+  var data={};
+  const [redirect, setRedirect] = useState(0);
 
   let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   function setEmailFunction(value) {
@@ -16,27 +17,39 @@ function Login(props) {
     seterror(0);
   }
 
-  // ------checking credentials--------------------
   function auth() {
     if (!regEmail.test(email)) {
       seterror(1);
       setMsg("Invalid email format :/");
     } else {
       seterror(0);
-      var rawCredentials = data.item[0].item[0].request.body.raw;
-      var credentials = JSON.parse(rawCredentials);
-      console.log(credentials);
-      if (email === credentials.email && password === credentials.password) {
-        console.log('hello')
-        // props.setLogin();
-        return <Redirect to="/profile" />;
+      (async () => {
+        const rawResponse = await fetch('https://jobs-api.squareboat.info/api/v1/auth/login', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "email": email,
+            "password": password
+          })
+        });
+        const content = await rawResponse.json();
+      
+        console.log(content);
+      
+      if (content.success===true) {
+        console.log('logged in')
+        data=content.data
+        console.log(data)
+        setRedirect(1)
       } else {
         seterror(1);
         setMsg("User not registered or incorrect Password :/");
-      }
+      }})();
     }
   }
-  //-------------------------------------------
 
   return (
     <div>
@@ -77,6 +90,12 @@ function Login(props) {
             ) : null}
             <div>
               <div className="row justify-content-center">
+                {console.log(data)}
+                {redirect ?
+                <Redirect to={{
+                              pathname:'/profile',
+                              state: {myData: JSON.stringify(data)}
+                }} />: null}
                   <button type="button" className="btn button" onClick={auth}>
                     {"Login"}
                   </button>

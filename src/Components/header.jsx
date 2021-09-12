@@ -20,6 +20,7 @@ function Header(props){
                 <img 
                     src={require('../Assets/down-arrow.png').default}
                     style={{height: 12, width: 12, display:'flex', alignSelf:'center'}}
+                    alt="down-arrow"
                 />
             </div>:
             <Link to="/login">

@@ -7,7 +7,7 @@ function JobDetails(props) {
             <div style={{fontSize: 14, color: '#303f60', marginTop:10}}>{props.details}</div>
             <div className="d-flex flex-row justify-content-between" style={{marginTop:15}}>
                 <div className="d-flex flex-row align-items-center" >
-                    <img src={require('../Assets/location.png').default} style={{height:15,width:15,margin: 5}}/>
+                    <img src={require('../Assets/location.png').default} alt="location" style={{height:15,width:15,margin: 5}}/>
                     <div style={{fontSize: 14, color: '#303f60'}}>{props.location}</div>
                 </div>
                 <div className="d-flex align-items-center justify-content-center applicationsButton" >

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "../App.css";
 import StdInput from "../Components/StdInput";
 import Header from "../Components/header";
-import Button from "../Components/Button";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function PostAJob() {
   return (
@@ -11,7 +10,7 @@ export default function PostAJob() {
       <Header loggedIn={1} postJob={1} />
       <div className="container postedBy ">
         <div className="d-flex flex-row align-items-center">
-            <img src={require('../Assets/home.png').default} style={{height:10, width:10, marginRight: 2}}/>
+            <img src={require('../Assets/home.png').default} alt='home' style={{height:10, width:10, marginRight: 2}}/>
             <div style={{color:'white'}}> {' Home > Post a job'}</div>
         </div>
         <div className="row forgotPassword justify-content-center ">

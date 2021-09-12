@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StdInput from "../Components/StdInput";
 import Button from "../Components/Button";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Header from "../Components/header";
 
 export default function SignUp() {
@@ -12,6 +12,7 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [skills, setSkills] = useState([]);
   const [error, setError] = useState(0);
+  const [redirect, setRedirect] = useState(0);
 
   function setNameFunction(value) {
     setError(0);
@@ -36,6 +37,32 @@ export default function SignUp() {
 
   function fieldValidations() {
     setError(1);
+    (async () => {
+      const rawResponse = await fetch('https://jobs-api.squareboat.info/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "email": email,
+          "userRole": toggle, 
+          "password": password,
+          "confirmPassword": confirmPassword,
+          "name": name,
+          "skills": skills
+        })
+      });
+      const content = await rawResponse.json();
+    
+      console.log(content);
+    
+    if (content.success===true) {
+      console.log('signed up')
+      setRedirect(1)
+    } else {
+      console.log('oops')
+    }})();
   }
 
   return (
@@ -138,6 +165,11 @@ export default function SignUp() {
                 </span>
               </h7>
             </div>
+            {redirect ?
+                <Redirect to={{
+                              pathname:'/profile',
+                              state: {}
+                }} />: null}
           </div>
         </div>
       </div>
